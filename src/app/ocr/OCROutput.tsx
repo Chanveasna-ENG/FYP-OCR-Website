@@ -33,9 +33,9 @@ export default function OCROutput({ previewUrl, text, confidence, onReset }: Pro
         {/* Right: text + Upload Another */}
         <div className={styles.rightCol}>
           <div className={styles.textBox}>{text || "(no text recognized)"}</div>
-          <div className={styles.conf}>
+          {/* <div className={styles.conf}>
             Confidence: {Math.round((confidence ?? 0) * 100)}%
-          </div>
+          </div> */}
           {onReset && (
             <button className={styles.rightBtn} onClick={onReset}>
               Upload Another

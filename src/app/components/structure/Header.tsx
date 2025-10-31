@@ -14,7 +14,6 @@ export default function Header() {
         <Link href="/">Home</Link>
         <Link href="/ocr">OCR Tool</Link>
         <Link href="/guide">Guide</Link>
-        <Link href="/api">API</Link>
         <Link href="/about">About Us</Link>
       </nav>
 

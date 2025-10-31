@@ -9,7 +9,7 @@ export default function HomePage() {
     <>
       <Header />
       {/* spacer so fixed header doesn't overlap */}
-      <div style={{ height: 85 }} />
+  
       <Hero />
       <OCRChallenges />
       <Purpose />

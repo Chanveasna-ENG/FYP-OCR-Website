@@ -22,14 +22,16 @@
   }
   .heroBtn {
     display: inline-block;
-    background: #fff;
+    background: #fcfcfc;
     color: #000;
     padding: 10px 20px;
     font-size: 18px;
-    font-weight: 700;
-    border-radius: 6px;
+    font-weight: 600;
+    border-radius: 10px;
     text-decoration: none;
-    transition: 0.3s;
+    text-align: center;
+    max-width: fit-content;   
+    transition: 0.1s;
   }
   .heroBtn:hover {
     background: #3d5bcc;
@@ -42,6 +44,6 @@
     min-height: 420px;
   }
   .image {
-    object-fit: cover;
+    object-fit:fill;
   }
   

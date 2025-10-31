@@ -4,6 +4,7 @@ import OCRUpload, { OCRResult } from "@/app/ocr/OCRUpload";
 import OCROutput from "@/app/ocr/OCROutput";
 import uploadCss from "@/app/styling/ocr-upload.module.css";
 import Header from "../components/structure/Header";
+import Footer from "../components/structure/Footer";
 
 export default function OCRToolPage() {
   const [result, setResult] = useState<null | (OCRResult & { previewUrl: string })>(null);
@@ -27,6 +28,8 @@ export default function OCRToolPage() {
           onReset={() => setResult(null)}
         />
       )}
+
+      <Footer/>
     </>
   );
 }
