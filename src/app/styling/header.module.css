@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background: #fff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    animation: fadeInHeader 2.2s forwards;
+  }
+  .logo {
+    height: 75px;
+    margin-left: 60px;
+  }
+  .navLinks {
+    display: flex;
+    gap: 115px;
+    margin-right: 60px;
+  }
+  .navLinks a {
+    text-decoration: none;
+    color: #000;
+    font-size: 25px;
+    transition: color 0.3s;
+  }
+  .navLinks a:hover {
+    color: #3d5bcc;
+  }
+  .socialIcons {
+    display: flex;
+    gap: 5px;
+    margin-right: 100px;
+  }
+  @keyframes fadeInHeader {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+  }
+  

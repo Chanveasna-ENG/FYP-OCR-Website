@@ -1,21 +1,13 @@
-import Image from "next/image";
-import "@/app/styling/footer.css";
+import Image from 'next/image';
+import '@/app/styling/footer.css';
 
-const Footer = () => {
+export default function Footer() {
   return (
     <footer>
       <div className="footer-logo">
-        <Image
-          src="/logo.png"
-          alt="Company Logo"
-          width={120} // adjust as needed
-          height={50} // adjust as needed
-          priority
-        />
+        <Image src="/logo.png" alt="Company Logo" width={150} height={100} />
         <div className="social-icons">
-          {/* Facebook Icon */}
           <Image src="/fb.png" alt="Facebook Icon" width={24} height={24} />
-          {/* Instagram Icon */}
           <Image src="/ig.png" alt="Instagram Icon" width={24} height={24} />
         </div>
       </div>
@@ -44,11 +36,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="copyright">
-        © 2025 FYP. All rights reserved.
-      </div>
+      <div className="copyright">© 2025 FYP. All rights reserved.</div>
     </footer>
   );
-};
-
-export default Footer;
+}

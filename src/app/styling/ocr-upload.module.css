@@ -1,0 +1,87 @@
+/* Header block (your exact style) */
+.text{
+    max-width:min(960px,92vw);
+    margin:48px auto 12px;
+    text-align:center;
+  }
+  .text h1{
+    font-family:"Inria Serif";
+    font-weight:700;
+    font-size:clamp(36px,7vw,64px);
+    line-height:1.6;
+    margin:0 0 10px;
+  }
+  .text p{
+    font-family:"Inria Serif";
+    font-size:clamp(16px,2.6vw,24px);
+    color:#333;
+    margin:0 0 20px;
+  }
+  
+  /* Apply your base body style globally from this module */
+  :global(body){
+    margin:0;
+    background:#ffffff;
+    color:#000000;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  }
+  
+  /* Upload panel (outer border box) */
+  .upload-panel{
+    width:min(860px,92vw);
+    margin:40px auto;
+    padding:28px;
+    border:1px solid #000000;
+    border-radius:14px;
+    box-sizing:border-box;
+    background:#fff;
+  }
+  
+  /* Hide the native file input */
+  .upload-panel input[type=file]{
+    position:absolute; opacity:0; width:0; height:0; pointer-events:none;
+  }
+  
+  /* Inner dashed box */
+  .upload-panel label{
+    max-width:560px;
+    height:230px;
+    margin:0 auto;
+    padding:22px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+    background:#fff;
+    border:2px dashed #959595;
+    border-radius:18px;
+    text-align:center;
+    cursor:pointer;
+  }
+  
+  .icon{font-size:34px; line-height:1; color:#8b8f98}
+  
+  /* In your original CSS, .text was reused for the label line.
+     To avoid clashing with the header .text, we give the label its own class: */
+  .labelText{font-family:'Inria Serif', serif; font-weight:700; font-size:28px; line-height:1.2; color:#111}
+  
+  /* Button under dashed box */
+  .upload-btn{
+    display:block;
+    margin:18px auto 0;
+    padding:12px 22px;
+    border-radius:10px;
+    background:#111;
+    color:#fff;
+    font-weight:700;
+    font-size:20px;
+    font-family:'Inria Serif', serif;
+    cursor:pointer;
+    transition:transform .08s ease, opacity .15s ease;
+  }
+  .upload-btn:hover{ opacity:.9; transform:translateY(-1px); }
+  .upload-btn:active{ transform:translateY(0); }
+  
+  /* small helper for status text */
+  .selected { margin-top:10px; text-align:center; color:#222; font-size:14px; }
+  
+  /* keep input invisible when we need a ref hook in JSX */
+  .hiddenInput { position:absolute; width:0; height:0; opacity:0; pointer-events:none; }
+  
