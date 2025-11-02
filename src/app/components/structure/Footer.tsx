@@ -5,11 +5,7 @@ export default function Footer() {
   return (
     <footer>
       <div className="footer-logo">
-        <Image src="/logo.png" alt="Company Logo" width={150} height={100} />
-        <div className="social-icons">
-          <Image src="/fb.png" alt="Facebook Icon" width={24} height={24} />
-          <Image src="/ig.png" alt="Instagram Icon" width={24} height={24} />
-        </div>
+        <Image src="/ocr.jpg" alt="Company Logo" width={300} height={50}  />
       </div>
 
       <div className="footer-info">

@@ -6,10 +6,14 @@ import styles from '@/app/styling/header.module.css';
 export default function Header() {
   return (
     <header className={styles.header}>
+      {/* left: logo */}
       <div className={styles.left}>
-        <Image src="/logo.png" alt="Logo" width={120} height={75} className={styles.logo} />
+        <Link href="/">
+          <Image src="/ocr.jpg" alt="Logo" width={100} height={10} className={styles.logo} />
+        </Link>
       </div>
 
+      {/* center: nav */}
       <nav className={styles.navLinks}>
         <Link href="/">Home</Link>
         <Link href="/ocr">OCR Tool</Link>
@@ -17,9 +21,9 @@ export default function Header() {
         <Link href="/about">About Us</Link>
       </nav>
 
-      <div className={styles.socialIcons}>
-        <a href="#"><Image src="/fb.png" alt="Facebook" width={24} height={24} /></a>
-        <a href="#"><Image src="/ig.png" alt="Instagram" width={24} height={24} /></a>
+      {/* right: login */}
+      <div className={styles.right}>
+        <Link href="/login" className={styles.loginBtn}>Log in</Link>
       </div>
     </header>
   );

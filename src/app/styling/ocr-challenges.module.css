@@ -25,6 +25,7 @@
     align-items: center;
     text-align: center;
     transition: 0.3s;
+    border-radius: 15px;
   }
   .box:hover {
     transform: translateY(-8px);

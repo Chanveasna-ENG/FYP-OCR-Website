@@ -32,10 +32,12 @@
     text-align: center;
     max-width: fit-content;   
     transition: 0.1s;
+    border: 1px solid transparent;
   }
   .heroBtn:hover {
-    background: #3d5bcc;
+    background: #0f0f0f;
     color: #fff;
+    border-color: #fff;
   }
   .heroImage {
     position: relative;
