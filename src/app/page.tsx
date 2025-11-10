@@ -8,7 +8,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
-      {/* spacer so fixed header doesn't overlap */}
+
   
       <Hero />
       <OCRChallenges />
