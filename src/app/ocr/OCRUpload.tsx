@@ -27,11 +27,10 @@ const VisuallyHiddenInput = styled("input")({
 export default function OCRUpload({ onSuccess }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // CHANGED: support multiple files
+  // State variables
   const [files, setFiles] = useState<File[]>([]);
   const [busy, setBusy] = useState(false);
   const [dragOver, setDragOver] = useState(false);
-
 
   // pick — unchanged name/signature
   const pick = () => inputRef.current?.click();
@@ -113,9 +112,8 @@ export default function OCRUpload({ onSuccess }: Props) {
         className={styles.hiddenInput}
       />
 
-      {/* Label acts as drop target (same as old), but styled with MUI */}
+      {/* Box with dashed border */}
       <label
-        // clicking still triggers pick()
         onClick={pick}
         onDragOver={(e) => {
           prevent(e);
@@ -136,82 +134,74 @@ export default function OCRUpload({ onSuccess }: Props) {
           sx={{
             p: 3,
             borderRadius: 2,
-            border: "1px dashed",
             borderColor: dragOver ? "primary.main" : "divider",
             bgcolor: dragOver ? "action.hover" : "background.paper",
             textAlign: "center",
             transition: "all 120ms ease",
+            minHeight: "150px", // Ensure the box maintains its height
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            overflowY: "auto", // Allow vertical scroll
+            maxHeight: "300px", // Limit the height of the container to enable scroll
           }}
         >
-        {/* lettering in the box */}
-          <div className={styles.icon}>
-          {<CloudUploadIcon />}
-          </div> 
-          <div className={styles.labelText}>
-            Drag &amp; Drop or
-            <br />
-            Select Files
-          </div>
-          {files.length > 0 && (
-            <Box sx={{ mt: 1 }}>
-              <Chip
-                label={`${files.length} selected`}
-                size="small"
-                variant="outlined"
-              />
-            </Box>
+          {/* If files are selected, display image preview */}
+          {files.length === 0 ? (
+            <>
+              <div className={styles.icon}>
+                <CloudUploadIcon sx={{ fontSize: 60 }} />
+              </div>
+              <div className={styles.labelText}>
+                Select or Drop your file here.
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Scrollable file preview */}
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  overflowX: "scroll", // Allow horizontal scroll for previews
+                  flexWrap: "nowrap", // Prevent wrapping of images
+                }}
+              >
+                {previews.map(({ file, url }) => (
+                  <Box key={file.name + file.size} sx={{ textAlign: "center", width: "auto" }}>
+                    <img
+                      src={url}
+                      alt={file.name}
+                      style={{
+                        width: "200px", // Image width set to 69px
+                        height: "auto", // Maintain aspect ratio
+                        borderRadius: 8,
+                      }}
+                    />
+                    <Typography
+                      variant="caption"
+                      title={file.name}
+                      sx={{
+                        display: "block",
+                        mt: 0.5,
+                        maxWidth: "69px", // Restrict text width
+                        overflow: "hidden",
+                        textOverflow: "ellipsis", // Truncate text in the middle
+                        whiteSpace: "nowrap", // Prevent text from wrapping
+                      }}
+                    >
+                      {file.name}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </>
           )}
         </Box>
       </label>
 
-      {/* Simple preview grid (uses your CSS container, minimal inline styles) */}
-      {previews.length > 0 && (
-        <Box
-          sx={{
-            mt: 1.5,
-            display: "grid",
-            gap: 8,
-            gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(3,1fr)", md: "repeat(4,1fr)" },
-          }}
-        >
-          {previews.map(({ file, url }) => (
-            <Box key={file.name + file.size} sx={{ textAlign: "center" }}>
-              <img
-                src={url}
-                alt={file.name}
-                style={{
-                  width: "100%",
-                  aspectRatio: "1 / 1",
-                  objectFit: "cover",
-                  borderRadius: 8,
-                }}
-              />
-              <Typography
-                variant="caption"
-                title={file.name}
-                sx={{ display: "block", mt: 0.5 }}
-                noWrap
-              >
-                {file.name}
-              </Typography>
-            </Box>
-          ))}
-        </Box>
-      )}
-
-      {/* Selected filename(s) text (keeps your old look) */}
-      {files.length === 1 && (
-        <div className={styles.selected}>
-          Selected: <strong>{files[0].name}</strong>
-        </div>
-      )}
-      {files.length > 1 && (
-        <div className={styles.selected}>
-          Selected: <strong>{files.length} files</strong>
-        </div>
-      )}
-
-      {/* Actions: Centered Upload and Clear buttons */}
+      {/* Centered Upload and Clear buttons */}
       <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 8 }}>
         <Button
           variant="contained"
