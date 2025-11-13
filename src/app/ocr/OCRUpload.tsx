@@ -134,6 +134,7 @@ export default function OCRUpload({ onSuccess }: Props) {
           sx={{
             p: 3,
             borderRadius: 2,
+            border: "0px dashed", // inner box
             borderColor: dragOver ? "primary.main" : "divider",
             bgcolor: dragOver ? "action.hover" : "background.paper",
             textAlign: "center",
@@ -143,7 +144,7 @@ export default function OCRUpload({ onSuccess }: Props) {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            overflowY: "auto", // Allow vertical scroll
+            overflowY: "auto", // Allow vertical scroll for the dropzone
             maxHeight: "300px", // Limit the height of the container to enable scroll
           }}
         >
@@ -159,36 +160,65 @@ export default function OCRUpload({ onSuccess }: Props) {
             </>
           ) : (
             <>
-              {/* Scrollable file preview */}
+              {/* TASK 1: Scrollable file preview box */}
               <Box
                 sx={{
                   display: "flex",
                   gap: 2,
-                  overflowX: "scroll", // Allow horizontal scroll for previews
+                  overflowX: "auto", // Allow horizontal scroll (left-to-right)
                   flexWrap: "nowrap", // Prevent wrapping of images
+                  width: "100%",
+                  p: 1, // Padding for scrollbar visibility
                 }}
               >
                 {previews.map(({ file, url }) => (
-                  <Box key={file.name + file.size} sx={{ textAlign: "center", width: "auto" }}>
-                    <img
-                      src={url}
-                      alt={file.name}
-                      style={{
-                        width: "200px", // Image width set to 69px
-                        height: "auto", // Maintain aspect ratio
-                        borderRadius: 8,
+                  // Container for the image box + text
+                  <Box
+                    key={file.name + file.size}
+                    sx={{
+                      width: 100, // TASK 2/3: Fixed width for the entire item
+                      flexShrink: 0, // Prevent item from shrinking
+                      textAlign: "center",
+                    }}
+                  >
+                    {/* TASK 2: Fixed 100x100 box for the image */}
+                    <Box
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 2,
+                        border: "1px solid",
+                        borderColor: "divider",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        overflow: "hidden",
+                        bgcolor: "background.default", // Shows empty space
                       }}
-                    />
+                    >
+                      <img
+                        src={url}
+                        alt={file.name}
+                        style={{
+                          width: "auto", // Maintain aspect ratio
+                          height: "auto", // Maintain aspect ratio
+                          maxWidth: "100%", // Fit within box
+                          maxHeight: "100%", // Fit within box
+                          objectFit: "contain", // Maintain aspect ratio
+                        }}
+                      />
+                    </Box>
+                    {/* TASK 3: Text label */}
                     <Typography
                       variant="caption"
                       title={file.name}
                       sx={{
                         display: "block",
                         mt: 0.5,
-                        maxWidth: "69px", // Restrict text width
-                        overflow: "hidden",
-                        textOverflow: "ellipsis", // Truncate text in the middle
-                        whiteSpace: "nowrap", // Prevent text from wrapping
+                        width: "100%", // Matches container width (100px)
+                        overflow: "hidden", // Truncate
+                        textOverflow: "ellipsis", // Add "..."
+                        whiteSpace: "nowrap", // Single line
                       }}
                     >
                       {file.name}
