@@ -5,11 +5,10 @@ import styles from "@/app/styling/ocr-output.module.css";
 type Props = {
   previewUrl: string;
   text: string;
-  confidence: number;
   onReset?: () => void;
 };
 
-export default function OCROutput({ previewUrl, text, confidence, onReset }: Props) {
+export default function OCROutput({ previewUrl, text, onReset }: Props) {
   const downloadTxt = () => {
     const blob = new Blob([text ?? ""], { type: "text/plain;charset=utf-8" });
     const a = document.createElement("a");
