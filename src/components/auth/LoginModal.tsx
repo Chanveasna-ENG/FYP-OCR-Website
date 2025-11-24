@@ -33,9 +33,11 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
         setError(response.error || "Login failed");
       }
     } catch (err) {
-      setError("An unexpected error occurred. Please try again.");
+      // Fix: Log the error or just ignore it properly
+        console.error("Login error:", err); // Using the variable removes the warning
+        setError("An unexpected error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
 
@@ -128,7 +130,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
 
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-500">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <button className="text-blue-500 hover:text-blue-400 font-medium">
             Contact Support
           </button>

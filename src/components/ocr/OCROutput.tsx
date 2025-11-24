@@ -1,6 +1,7 @@
 "use client";
 
 import { Download, RefreshCw } from "lucide-react";
+import Image from "next/image";
 
 type Props = {
   previewUrl: string;
@@ -31,11 +32,13 @@ export default function OCROutput({ previewUrl, text, onReset }: Props) {
           </h3>
           <div className="flex-grow flex items-center justify-center bg-black/50 rounded-xl border border-dashed border-gray-800 min-h-[400px] overflow-hidden relative group">
             {previewUrl ? (
-              <img 
-                src={previewUrl} 
-                alt="Preview" 
-                className="max-w-full max-h-[500px] object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-              />
+                <Image 
+                  src={previewUrl} 
+                  alt="Preview" 
+                  fill
+                  className="object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                  unoptimized
+                />
             ) : (
               <div className="text-gray-600 text-sm">No Preview Available</div>
             )}
