@@ -1,89 +1,69 @@
-import Header from "@/app/components/structure/Header";
-import Footer from "@/app/components/structure/Footer";
-import styles from "@/app/styling/about.module.css";
-import Image from "next/image";
+import Header from "@/components/structure/Header";
+import Footer from "@/components/structure/Footer";
+import TeamCard from "@/components/about/TeamCard";
+import WhoWeAre from "@/components/about/WhoWeAre";
 
+const teamMembers = [
+  {
+    name: "Minh LY",
+    role: "Project Manager",
+    image: "/li-minh.jpg",
+  },
+  {
+    name: "Chanveasna ENG",
+    role: "AI Engineer",
+    image: "/veasna.jpg",
+  },
+  {
+    name: "Sophea Vatey HEANG",
+    role: "Backend Developer",
+    image: "/vatey.jpg",
+  },
+  {
+    name: "Sophearum SIYONN",
+    role: "Frontend Developer",
+    image: "/phearum.jpg",
+  },
+];
 
 export default function AboutPage() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-black">
       <Header />
 
-      {/* TEAM SECTION (dark) */}
-      <section className={styles.teamHero}>
-        <h2>Meet Our Team</h2>
+      <main className="flex-grow">
+        {/* Team Section (Hero) */}
+        <section className="pt-24 pb-20 px-4 md:px-6">
+          <div className="container mx-auto">
+            {/* Section Header */}
+            <div className="text-center mb-20 space-y-4">
+              <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight">
+                Meet Our <span className="text-blue-600">Team</span>
+              </h1>
+              <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                The minds behind the next generation of Khmer OCR technology.
+              </p>
+            </div>
 
-        <div className={styles.teamGrid}>
-          {/* Card 1 */}
-          <article className={styles.card}>
-            <Image
-              src="/li-minh.jpg"
-              alt="Li Minh"
-              width={300}
-              height={400}
-              className={styles.avatar}
-            />
-            <h3>Minh LY</h3>
-            <p className={styles.role}>Project<br />Manager</p>
-        
-          </article>
+            {/* 4-Column Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {teamMembers.map((member) => (
+                <TeamCard
+                  key={member.name}
+                  name={member.name}
+                  role={member.role}
+                  imageSrc={member.image}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
 
-          {/* Card 2 */}
-          <article className={styles.card}>
-            <Image
-              src="/veasna.jpg"
-              alt="Veasna"
-              width={600}
-              height={270}
-              className={styles.avatar}
-            />
-            <h3>Chanveasna ENG</h3>
-            <p className={styles.role}>AI Engineer</p>
-       
-          </article>
-
-          {/* Card 3 */}
-          <article className={styles.card}>
-            <Image
-              src="/vatey.jpg"
-              alt="Vatey"
-              width={600}
-              height={270}
-              className={styles.avatar}
-            />
-            <h3>Sophea Vatey HEANG</h3>
-            <p className={styles.role}>Backend<br/>Developer</p>
-   
-          </article>
-
-          {/* Card 4 */}
-          <article className={styles.card}>
-            <Image
-              src="/phearum.jpg"
-              alt="Phearum"
-              width={600}
-              height={270}
-              className={styles.avatar}
-            />
-            <h3>Sophearum SIYONN</h3>
-            <p className={styles.role}>Frontend<br />Developer</p>
-     
-          </article>
-        </div>
-      </section>
-
-      {/* ABOUT SECTION (light blue) */}
-      <section className={styles.about}>
-        <h2>Who We Are</h2>
-        <p>
-          We are a team of students passionate about using technology to make the Khmer language more accessible.
-          Our project, Khmer OCR with Modern Architecture, focuses on building a powerful OCR engine that accurately
-          recognizes Khmer text, helping preserve culture, support education, and drive digital transformation
-          in Cambodia.
-        </p>
-      </section>
+        {/* Who We Are Section */}
+        <WhoWeAre />
+      </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
