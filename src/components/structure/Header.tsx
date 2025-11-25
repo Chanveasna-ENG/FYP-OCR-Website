@@ -19,7 +19,6 @@ export default function Header() {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "OCR Tool", href: "/ocr" },
-    { name: "Guide", href: "/guide" },
     { name: "About Us", href: "/about" },
   ];
 
