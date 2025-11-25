@@ -1,6 +1,6 @@
 // src/lib/auth-service.ts
 
-const API_BASE_URL = "http://103.253.145.16:8000"; // Replace with your actual API URL
+const API_BASE_URL = "http://165.232.160.186:8000"; // Replace with your actual API URL
 
 export type LoginCredentials = {
   username: string; // Backend uses OAuth2PasswordRequestForm which expects 'username'
