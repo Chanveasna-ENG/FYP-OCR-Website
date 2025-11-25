@@ -77,13 +77,13 @@ export default function OCROutput({ previewUrl, text, onReset }: Props) {
               value={text || "(No text recognized)"}
             />
             {/* Copy Button Overlay (Optional Enhancement) */}
-            <button 
+            {/* <button 
                 onClick={() => navigator.clipboard.writeText(text)}
                 className="absolute bottom-4 right-4 p-2 bg-gray-800 text-gray-400 rounded-lg hover:text-white hover:bg-gray-700 transition-colors shadow-lg"
                 title="Copy to Clipboard"
             >
                 <span className="text-xs font-bold">COPY</span>
-            </button>
+            </button> */}
           </div>
         </div>
 

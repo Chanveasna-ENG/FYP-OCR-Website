@@ -1,6 +1,8 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+const API_BASE_URL = "http://103.253.145.16:8000";
+
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 type User = {
   name: string;
@@ -12,24 +14,61 @@ type AuthContextType = {
   login: (user: User) => void;
   logout: () => void;
   isLoginModalOpen: boolean;
-  isSignUpModalOpen: boolean; // New State
+  isSignUpModalOpen: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
-  openSignUpModal: () => void; // New Action
-  closeSignUpModal: () => void; // New Action
+  openSignUpModal: () => void;
+  closeSignUpModal: () => void;
+  loading: boolean; // New state to prevent flicker
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true); // Start loading
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
 
+  // --- RESTORE SESSION ON LOAD ---
+  useEffect(() => {
+    const restoreSession = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        try {
+          // Verify token with backend
+          const response = await fetch(`${API_BASE_URL}/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            // Map backend user to frontend user
+            setUser({
+              name: data.user.username, // Adjust based on your backend response
+              email: data.user.email
+            });
+          } else {
+            // Token invalid/expired
+            localStorage.removeItem("accessToken");
+          }
+        } catch (error) {
+          console.error("Session restore failed", error);
+        }
+      }
+      setLoading(false);
+    };
+
+    restoreSession();
+  }, []);
+
   const login = (userData: User) => setUser(userData);
+  
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("accessToken"); // Clear token
+    localStorage.removeItem("accessToken");
+    // Optional: Call backend logout to clear HttpOnly cookie if used
+    fetch(`${API_BASE_URL}/auth/logout`, { method: "POST" });
   };
   
   const openLoginModal = () => { setIsLoginModalOpen(true); setIsSignUpModalOpen(false); };
@@ -42,7 +81,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider value={{ 
       user, login, logout, 
       isLoginModalOpen, openLoginModal, closeLoginModal,
-      isSignUpModalOpen, openSignUpModal, closeSignUpModal
+      isSignUpModalOpen, openSignUpModal, closeSignUpModal,
+      loading
     }}>
       {children}
     </AuthContext.Provider>
