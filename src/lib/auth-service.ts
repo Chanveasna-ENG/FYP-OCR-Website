@@ -1,3 +1,4 @@
+
 // src/lib/auth-service.ts
 
 const API_BASE_URL = "http://165.232.160.186:8000"; // Replace with your actual API URL
@@ -105,4 +106,33 @@ async function fetchUserProfile(token: string): Promise<AuthResponse> {
 // --- Logout Helper ---
 export function logoutUser() {
   localStorage.removeItem("accessToken");
+}
+
+
+export async function linkTelegramAccount(token: string): Promise<{ success: boolean; message: string }> {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) return { success: false, message: "Authentication required." };
+
+    // Note: Based on your backend router setup, the endpoint is likely /telegram/link
+    // If you changed the prefix to /api/telegram, adjust accordingly.
+    const response = await fetch(`${API_BASE_URL}/telegram/link`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ telegram_token: token }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return { success: false, message: data.detail || "Failed to connect Telegram account." };
+    }
+
+    return { success: true, message: "Telegram account connected successfully!" };
+  } catch (err) {
+    return { success: false, message: "Network error. Please try again." };
+  }
 }
