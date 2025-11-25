@@ -2,8 +2,15 @@ import { FileMetadata, InitiateUploadResponse, OCRFinalResult } from "@/types/oc
 
 const API_BASE_URL = "http://103.253.145.16:8000/api";
 
+// Helper to get token
+const getAuthHeader = () => {
+  if (typeof window === "undefined") return {}; // Safety check for SSR
+  const token = localStorage.getItem("accessToken");
+  return token ? { "Authorization": `Bearer ${token}` } : {};
+};
+
 export async function processOCRJob(files: File[]): Promise<OCRFinalResult[]> {
-  // 1. Initiate Session
+  // 1. Initiate Session (Authenticated)
   const fileMetas: FileMetadata[] = files.map((f) => ({
     filename: f.name,
     content_type: f.type,
@@ -11,14 +18,19 @@ export async function processOCRJob(files: File[]): Promise<OCRFinalResult[]> {
 
   const initResp = await fetch(`${API_BASE_URL}/initiate-uploads`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      ...getAuthHeader() 
+    } as HeadersInit, // <--- FIX: Explicit type casting
     body: JSON.stringify({ files: fileMetas }),
   });
 
+  if (initResp.status === 401) throw new Error("Session expired. Please login again.");
   if (!initResp.ok) throw new Error("Failed to initiate upload session.");
+  
   const { job_id, uploads } = (await initResp.json()) as InitiateUploadResponse;
 
-  // 2. Parallel Upload to S3
+  // 2. Parallel Upload to S3 (Direct upload, no auth header needed for S3 presigned URL)
   const uploadPromises = uploads.map((upload) => {
     const file = files.find((f) => f.name === upload.filename);
     if (!file) return Promise.reject(`File ${upload.filename} not found`);
@@ -35,10 +47,13 @@ export async function processOCRJob(files: File[]): Promise<OCRFinalResult[]> {
     throw new Error("One or more files failed to upload to S3.");
   }
 
-  // 3. Trigger OCR Processing
+  // 3. Trigger OCR Processing (Authenticated)
   const ocrResp = await fetch(`${API_BASE_URL}/get-ocr-results`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      ...getAuthHeader()
+    } as HeadersInit, // <--- FIX: Explicit type casting
     body: JSON.stringify({ job_id }),
   });
 
