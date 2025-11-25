@@ -14,7 +14,7 @@ function ConnectTelegramLogic() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   
-  const { user, loading, openLoginModal } = useAuth();
+  const { user, loading, openLoginModal, openSignUpModal } = useAuth();
   
   const [status, setStatus] = useState<TelegramConnectStatus>("idle");
   const [message, setMessage] = useState("Waiting for authentication...");
@@ -32,9 +32,7 @@ function ConnectTelegramLogic() {
 
     // 3. User Not Logged In: Prompt login
     if (!user) {
-      setMessage("Please log in to connect your Telegram account.");
-      // We don't automatically open modal here to avoid popup blocking/UX issues, 
-      // instead we let the user click the button in the UI component.
+      setMessage("Please log in or sign up to connect your Telegram account.");
       return;
     }
 
@@ -60,13 +58,20 @@ function ConnectTelegramLogic() {
   };
 
   return (
-    <div className="min-h-screen pt-20 flex items-center justify-center bg-black p-4">
-      <TelegramConnectCard 
-        status={status}
-        message={message}
-        isUserLoggedIn={!!user}
-        onLoginClick={openLoginModal}
-      />
+    <div className="flex flex-col min-h-screen bg-black">
+      <Header />
+      
+      <main className="flex-grow flex items-center justify-center px-4 py-20">
+        <TelegramConnectCard 
+          status={status}
+          message={message}
+          isUserLoggedIn={!!user}
+          onLoginClick={openLoginModal}
+          onSignUpClick={openSignUpModal}
+        />
+      </main>
+
+      <Footer />
     </div>
   );
 }
@@ -74,7 +79,14 @@ function ConnectTelegramLogic() {
 // Main Page Component wrapped in Suspense
 export default function ConnectTelegramPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-white">Loading...</div>}>
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center text-white">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-t-2 border-white rounded-full animate-spin"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    }>
       <ConnectTelegramLogic />
     </Suspense>
   );
