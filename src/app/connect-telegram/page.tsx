@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { linkTelegramAccount } from "@/lib/auth-service";
 import TelegramConnectCard from "@/components/auth/TelegramConnectCard";
+import Header from "@/components/structure/Header";
+import Footer from "@/components/structure/Footer";
 
 type TelegramConnectStatus = "idle" | "processing" | "success" | "error";
 
